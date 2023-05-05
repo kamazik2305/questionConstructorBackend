@@ -13,7 +13,7 @@ import lombok.Setter;
 public class TrueAnswer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_true_answer")
     private long id;
 

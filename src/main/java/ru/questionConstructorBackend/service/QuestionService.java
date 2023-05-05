@@ -2,11 +2,14 @@ package ru.questionConstructorBackend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.questionConstructorBackend.dto.AnswerVersionDto;
 import ru.questionConstructorBackend.dto.QuestionDto;
 import ru.questionConstructorBackend.dto.QuestionTypeDto;
+import ru.questionConstructorBackend.entity.AnswerVersion;
 import ru.questionConstructorBackend.entity.Question;
 import ru.questionConstructorBackend.mapper.QuestionMapper;
 import ru.questionConstructorBackend.mapper.QuestionTypeMapper;
+import ru.questionConstructorBackend.repository.AnswerVersionRepository;
 import ru.questionConstructorBackend.repository.QuestionRepository;
 import ru.questionConstructorBackend.repository.QuestionTypeRepository;
 
@@ -19,6 +22,8 @@ public class QuestionService {
     private QuestionTypeRepository questionTypeRepository;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private AnswerVersionRepository answerVersionRepository;
     @Autowired
     private QuestionTypeMapper questionTypeMapper;
     @Autowired
@@ -43,11 +48,18 @@ public class QuestionService {
     }
 
 
-    //todo как добавляются варианты ответа?
+    //fixme вопрос добавлятся в базу, но ответ выдаёт с ошибкой
     public QuestionDto addQuestion(QuestionDto questionDto)
     {
         Question question = questionMapper.toEntity(questionDto);
         questionRepository.save(question);
+        for(AnswerVersionDto answerVersionDto : questionDto.getAnswerVersions())
+        {
+            AnswerVersion answerVersion = new AnswerVersion();
+            answerVersion.setAnswerText(answerVersionDto.getAnswerText());
+            answerVersion.setQuestion(question);
+            answerVersionRepository.save(answerVersion);
+        }
         return questionMapper.toDto(question);
     }
 

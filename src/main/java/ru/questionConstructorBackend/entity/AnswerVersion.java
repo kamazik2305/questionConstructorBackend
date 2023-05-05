@@ -13,7 +13,7 @@ import lombok.Setter;
 public class AnswerVersion {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_answer_version")
     private long id;
 

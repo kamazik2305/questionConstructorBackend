@@ -18,13 +18,13 @@ public class QuestionMapper {
 
     private final AnswerVersionRepository answerVersionRepository;
 
+    private final QuestionRepository questionRepository;
+
     public Question toEntity(QuestionDto questionDto)
     {
         Question question = new Question();
         question.setQuestionText(questionDto.getQuestionText());
         question.setQuestionType(questionTypeRepository.findById(questionDto.getIdQuestionType()).get());
-
-
         return question;
     }
 
@@ -35,6 +35,13 @@ public class QuestionMapper {
                 .id(question.getId())
                 .idQuestionType(question.getQuestionType().getId())
                 .questionText(question.getQuestionText())
+                .answerVersions(question.getAnswerVersions()
+                        .stream()
+                        .map(answerVersion -> AnswerVersionDto.builder()
+                                .id(answerVersion.getId())
+                                .answerText(answerVersion.getAnswerText())
+                                .build())
+                        .toList())
                 .build();
     }
 
