@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <changeSet id="question_types-insert" author="kamaz" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <tableIsEmpty tableName="question_type"/>
+        </preConditions>
+
+        <insert tableName="question_type">
+            <column name="id_question_type" value="1"/>
+            <column name="type_name" value="1 варинт ответа"/>
+        </insert>
+
+        <insert tableName="question_type">
+            <column name="id_question_type" value="2"/>
+            <column name="type_name" value="Открытый ответ"/>
+        </insert>
+
+        <insert tableName="question_type">
+            <column name="id_question_type" value="3"/>
+            <column name="type_name" value="Несколько вариантов ответа"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
