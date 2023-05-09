@@ -18,7 +18,7 @@ public class QuestionDto {
     private String questionText;
     @NotNull
     private long idQuestionType;
-
+    @NotNull
     private List<AnswerVersionDto> answerVersions;
 
 }

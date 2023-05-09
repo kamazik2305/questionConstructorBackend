@@ -13,7 +13,10 @@ import ru.questionConstructorBackend.repository.AnswerVersionRepository;
 import ru.questionConstructorBackend.repository.QuestionRepository;
 import ru.questionConstructorBackend.repository.QuestionTypeRepository;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -29,8 +32,7 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<QuestionTypeDto> findAllQuestionTypes()
-    {
+    public List<QuestionTypeDto> findAllQuestionTypes() {
         return questionTypeRepository
                 .findAll()
                 .stream()
@@ -38,28 +40,58 @@ public class QuestionService {
                 .toList();
     }
 
-    public List<QuestionDto> findAllQuestions()
-    {
-        return questionRepository
+    public List<QuestionDto> findAllQuestions() {
+
+        ArrayList<QuestionDto> questionDtoList = questionRepository
                 .findAll()
                 .stream()
                 .map(question -> questionMapper.toDto(question))
-                .toList();
+                .collect(Collectors
+                        .toCollection(ArrayList :: new));
+        Collections.shuffle(questionDtoList);
+        return questionDtoList;
+//        return questionRepository
+//                .findAll()
+//                .stream()
+//                .map(question -> questionMapper.toDto(question))
+//                .toList();
+    }
+
+    public QuestionDto findQuestionById(long id)
+    {
+        return questionMapper.toDto(questionRepository.findById(id).orElseThrow());
+    }
+
+    public QuestionDto updateQuestionById(long id, QuestionDto questionDto)
+    {
+        Question question = questionRepository.findById(id).orElseThrow();
+        question.setQuestionText(questionDto.getQuestionText());
+        questionRepository.save(question);
+        return questionMapper.toDto(question);
+    }
+
+    public void deleteQuestionById(long id)
+    {
+        questionRepository.deleteById(id);
     }
 
 
-    //fixme вопрос добавлятся в базу, но ответ выдаёт с ошибкой
-    public QuestionDto addQuestion(QuestionDto questionDto)
-    {
+
+    public QuestionDto addQuestion(QuestionDto questionDto) {
         Question question = questionMapper.toEntity(questionDto);
         questionRepository.save(question);
-        for(AnswerVersionDto answerVersionDto : questionDto.getAnswerVersions())
-        {
+
+        List<AnswerVersion> answerVersions = new ArrayList<>();
+        for (AnswerVersionDto answerVersionDto : questionDto.getAnswerVersions()) {
             AnswerVersion answerVersion = new AnswerVersion();
             answerVersion.setAnswerText(answerVersionDto.getAnswerText());
             answerVersion.setQuestion(question);
             answerVersionRepository.save(answerVersion);
+            answerVersions.add(answerVersion);
         }
+        question.setAnswerVersions(answerVersions);
+        //questionRepository.save(question);
+
         return questionMapper.toDto(question);
     }
 

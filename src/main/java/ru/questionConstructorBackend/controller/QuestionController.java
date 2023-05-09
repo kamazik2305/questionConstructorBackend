@@ -34,5 +34,25 @@ public class QuestionController {
         return questionService.addQuestion(questionDto);
     }
 
+    @GetMapping("/questions/{id_question}")
+    public QuestionDto getQuestionById(@PathVariable(value = "id_question") long id)
+    {
+        return questionService.findQuestionById(id);
+    }
+
+    @PutMapping("/questions/{id_question}")
+    public QuestionDto updateQuestionById(@PathVariable(value = "id_question") long id,
+                                          @RequestBody QuestionDto questionDto)
+    {
+        return questionService.updateQuestionById(id, questionDto);
+    }
+
+    @DeleteMapping("/questions/{id_question}")
+    public String deleteQuestionById(@PathVariable(value = "id_question") long id)
+    {
+        questionService.deleteQuestionById(id);
+        return "Question deleted";
+    }
+
 
 }
