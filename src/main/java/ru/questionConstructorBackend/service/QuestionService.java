@@ -7,6 +7,7 @@ import ru.questionConstructorBackend.dto.QuestionDto;
 import ru.questionConstructorBackend.dto.QuestionTypeDto;
 import ru.questionConstructorBackend.entity.AnswerVersion;
 import ru.questionConstructorBackend.entity.Question;
+import ru.questionConstructorBackend.entity.QuestionType;
 import ru.questionConstructorBackend.mapper.QuestionMapper;
 import ru.questionConstructorBackend.mapper.QuestionTypeMapper;
 import ru.questionConstructorBackend.repository.AnswerVersionRepository;
@@ -14,7 +15,6 @@ import ru.questionConstructorBackend.repository.QuestionRepository;
 import ru.questionConstructorBackend.repository.QuestionTypeRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,49 +32,46 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public List<QuestionTypeDto> findAllQuestionTypes() {
+    public ArrayList<QuestionTypeDto> findAllQuestionTypes() {
         return questionTypeRepository
                 .findAll()
                 .stream()
                 .map(questionType -> questionTypeMapper.toDto(questionType))
-                .toList();
+                .collect(Collectors.
+                        toCollection(ArrayList::new));
     }
 
     public List<QuestionDto> findAllQuestions() {
 
-        ArrayList<QuestionDto> questionDtoList = questionRepository
-                .findAll()
-                .stream()
-                .map(question -> questionMapper.toDto(question))
-                .collect(Collectors
-                        .toCollection(ArrayList :: new));
-        Collections.shuffle(questionDtoList);
-        return questionDtoList;
-//        return questionRepository
+//        ArrayList<QuestionDto> questionDtoList = questionRepository
 //                .findAll()
 //                .stream()
 //                .map(question -> questionMapper.toDto(question))
-//                .toList();
+//                .collect(Collectors
+//                        .toCollection(ArrayList :: new));
+//        Collections.shuffle(questionDtoList);
+//        return questionDtoList; - вопросы вперемешку
+        return questionRepository
+                .findAll()
+                .stream()
+                .map(question -> questionMapper.toDto(question))
+                .toList();
     }
 
-    public QuestionDto findQuestionById(long id)
-    {
+    public QuestionDto findQuestionById(long id) {
         return questionMapper.toDto(questionRepository.findById(id).orElseThrow());
     }
 
-    public QuestionDto updateQuestionById(long id, QuestionDto questionDto)
-    {
+    public QuestionDto updateQuestionById(long id, QuestionDto questionDto) {
         Question question = questionRepository.findById(id).orElseThrow();
         question.setQuestionText(questionDto.getQuestionText());
         questionRepository.save(question);
         return questionMapper.toDto(question);
     }
 
-    public void deleteQuestionById(long id)
-    {
+    public void deleteQuestionById(long id) {
         questionRepository.deleteById(id);
     }
-
 
 
     public QuestionDto addQuestion(QuestionDto questionDto) {

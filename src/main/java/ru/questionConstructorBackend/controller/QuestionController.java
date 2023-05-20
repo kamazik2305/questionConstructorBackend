@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.questionConstructorBackend.dto.QuestionDto;
 import ru.questionConstructorBackend.dto.QuestionTypeDto;
+import ru.questionConstructorBackend.entity.QuestionType;
 import ru.questionConstructorBackend.service.QuestionService;
 
 import java.util.List;
