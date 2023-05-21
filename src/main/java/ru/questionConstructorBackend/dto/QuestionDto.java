@@ -1,6 +1,7 @@
 package ru.questionConstructorBackend.dto;
 
 import lombok.*;
+import ru.questionConstructorBackend.entity.TrueAnswer;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

@@ -55,5 +55,11 @@ public class QuestionController {
         return "Question deleted";
     }
 
+    @GetMapping("/search")
+    public List<QuestionDto> getQuestionsBySearchString(@RequestParam String searchString)
+    {
+        return questionService.findQuestionsBySearchString(searchString);
+    }
+
 
 }

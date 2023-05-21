@@ -7,7 +7,6 @@ import ru.questionConstructorBackend.dto.QuestionDto;
 import ru.questionConstructorBackend.dto.QuestionTypeDto;
 import ru.questionConstructorBackend.entity.AnswerVersion;
 import ru.questionConstructorBackend.entity.Question;
-import ru.questionConstructorBackend.entity.QuestionType;
 import ru.questionConstructorBackend.mapper.QuestionMapper;
 import ru.questionConstructorBackend.mapper.QuestionTypeMapper;
 import ru.questionConstructorBackend.repository.AnswerVersionRepository;
@@ -87,9 +86,15 @@ public class QuestionService {
             answerVersions.add(answerVersion);
         }
         question.setAnswerVersions(answerVersions);
-        //questionRepository.save(question);
+
 
         return questionMapper.toDto(question);
+    }
+
+    public List<QuestionDto> findQuestionsBySearchString(String SearchString) {
+        return questionRepository.findAllByQuestionTextContains(SearchString).stream()
+                .map(question -> questionMapper.toDto(question))
+                .toList();
     }
 
 }
