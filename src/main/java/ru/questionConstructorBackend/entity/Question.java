@@ -29,13 +29,9 @@ public class Question {
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AnswerVersion> answerVersions;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TrueAnswer> trueAnswers;
-
-    public Question(String questionText, QuestionType questionType, List<AnswerVersion> answerVersions, List<TrueAnswer> trueAnswers) {
+    public Question(String questionText, QuestionType questionType, List<AnswerVersion> answerVersions) {
         this.questionText = questionText;
         this.questionType = questionType;
         this.answerVersions = answerVersions;
-        this.trueAnswers = trueAnswers;
     }
 }

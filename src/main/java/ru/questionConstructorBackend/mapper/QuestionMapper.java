@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.questionConstructorBackend.dto.AnswerVersionDto;
 import ru.questionConstructorBackend.dto.QuestionDto;
-import ru.questionConstructorBackend.entity.AnswerVersion;
 import ru.questionConstructorBackend.entity.Question;
 import ru.questionConstructorBackend.repository.AnswerVersionRepository;
 import ru.questionConstructorBackend.repository.QuestionRepository;

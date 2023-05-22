@@ -24,12 +24,8 @@ public class AnswerVersion {
     @JoinColumn(name = "id_question")
     private Question question;
 
-    @OneToOne(mappedBy = "answerVersion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private TrueAnswer trueAnswer;
+    @Column(name = "verity")
+    private boolean verity;
 
-    public AnswerVersion(String answerText, Question question, TrueAnswer trueAnswer) {
-        this.answerText = answerText;
-        this.question = question;
-        this.trueAnswer = trueAnswer;
-    }
+
 }

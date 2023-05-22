@@ -16,4 +16,6 @@ public class AnswerVersionDto {
     @NotEmpty
     private String answerText;
 
+    private boolean verity;
+
 }

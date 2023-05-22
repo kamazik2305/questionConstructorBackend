@@ -60,18 +60,8 @@
             <column name="id_question" type="bigint">
                 <constraints nullable="false"/>
             </column>
-        </createTable>
+            <column name="verity" type="boolean"/>
 
-        <createTable tableName="true_answer">
-            <column name="id_true_answer" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="id_answer_version" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="id_question" type="bigint">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="question"
@@ -86,18 +76,6 @@
                                  referencedTableName="question"
                                  referencedColumnNames="id_question"/>
 
-        <addForeignKeyConstraint baseTableName="true_answer"
-                                 baseColumnNames="id_question"
-                                 constraintName="fk_store_true_answer_id_question"
-                                 referencedTableName="question"
-                                 referencedColumnNames="id_question"/>
-
-        <addForeignKeyConstraint baseTableName="true_answer"
-                                 baseColumnNames="id_answer_version"
-                                 constraintName="fk_store_id_answer_version"
-                                 referencedTableName="answer_version"
-                                 referencedColumnNames="id_answer_version"/>
-
     </changeSet>
 
     <changeSet id="question_type-question-answer_version-true_answer-rollback" author="kamaz">
@@ -105,11 +83,8 @@
             <dropTable tableName="question_type"/>
             <dropTable tableName="question"/>
             <dropTable tableName="answer_version"/>
-            <dropTable tableName="true_answer"/>
             <dropForeignKeyConstraint baseTableName="question" constraintName="fk_store_id_type_question"/>
             <dropForeignKeyConstraint baseTableName="answer_version" constraintName="fk_store_answer_version_id_question"/>
-            <dropForeignKeyConstraint baseTableName="true_answer" constraintName="fk_store_true_answer_id_question"/>
-            <dropForeignKeyConstraint baseTableName="true_answer" constraintName="fk_store_id_answer_version"/>
         </rollback>
     </changeSet>
 
