@@ -81,6 +81,7 @@ public class QuestionService {
         for (AnswerVersionDto answerVersionDto : questionDto.getAnswerVersions()) {
             AnswerVersion answerVersion = new AnswerVersion();
             answerVersion.setAnswerText(answerVersionDto.getAnswerText());
+            answerVersion.setVerity(answerVersionDto.getVerity());
             answerVersion.setQuestion(question);
             answerVersionRepository.save(answerVersion);
             answerVersions.add(answerVersion);

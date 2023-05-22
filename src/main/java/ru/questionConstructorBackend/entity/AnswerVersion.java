@@ -25,7 +25,7 @@ public class AnswerVersion {
     private Question question;
 
     @Column(name = "verity")
-    private boolean verity;
+    private Boolean verity;
 
 
 }

@@ -39,6 +39,7 @@ public class QuestionMapper {
                         .map(answerVersion -> AnswerVersionDto.builder()
                                 .id(answerVersion.getId())
                                 .answerText(answerVersion.getAnswerText())
+                                .verity(answerVersion.getVerity())
                                 .build())
                         .toList())
                 .build();
