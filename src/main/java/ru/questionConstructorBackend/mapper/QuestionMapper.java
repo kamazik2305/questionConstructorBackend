@@ -37,13 +37,14 @@ public class QuestionMapper {
                 .answerVersions(question.getAnswerVersions()
                         .stream()
                         .map(answerVersion -> AnswerVersionDto.builder()
-                                .id(answerVersion.getId())
                                 .answerText(answerVersion.getAnswerText())
                                 .verity(answerVersion.getVerity())
                                 .build())
                         .toList())
                 .build();
     }
+
+
 
 
 

@@ -2,6 +2,8 @@ package ru.questionConstructorBackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.questionConstructorBackend.dto.AnswerVersionDto;
+import ru.questionConstructorBackend.dto.CheckQuestionDto;
 import ru.questionConstructorBackend.dto.QuestionDto;
 import ru.questionConstructorBackend.dto.QuestionTypeDto;
 import ru.questionConstructorBackend.entity.QuestionType;
@@ -61,5 +63,10 @@ public class QuestionController {
         return questionService.findQuestionsBySearchString(searchString);
     }
 
+    @GetMapping("/compare")
+    public Boolean checkQuestion(@RequestBody CheckQuestionDto checkQuestionDto)
+    {
+        return questionService.checkQuestion(checkQuestionDto);
+    }
 
 }

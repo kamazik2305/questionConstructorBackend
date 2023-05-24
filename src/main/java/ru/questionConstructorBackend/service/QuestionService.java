@@ -1,8 +1,10 @@
 package ru.questionConstructorBackend.service;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.questionConstructorBackend.dto.AnswerVersionDto;
+import ru.questionConstructorBackend.dto.CheckQuestionDto;
 import ru.questionConstructorBackend.dto.QuestionDto;
 import ru.questionConstructorBackend.dto.QuestionTypeDto;
 import ru.questionConstructorBackend.entity.AnswerVersion;
@@ -61,6 +63,7 @@ public class QuestionService {
         return questionMapper.toDto(questionRepository.findById(id).orElseThrow());
     }
 
+
     public QuestionDto updateQuestionById(long id, QuestionDto questionDto) {
         Question question = questionRepository.findById(id).orElseThrow();
         question.setQuestionText(questionDto.getQuestionText());
@@ -96,6 +99,13 @@ public class QuestionService {
         return questionRepository.findAllByQuestionTextContains(SearchString).stream()
                 .map(question -> questionMapper.toDto(question))
                 .toList();
+    }
+
+    public Boolean checkQuestion(CheckQuestionDto checkQuestionDto)
+    {
+        if(checkQuestionDto.getTrueAnswers().equals(checkQuestionDto.getSelectedAnswers()))
+            return true;
+        else return  false;
     }
 
 }

@@ -9,10 +9,9 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class AnswerVersionDto {
 
-    @NotNull
-    private long id;
     @NotEmpty
     private String answerText;
     @NotNull
