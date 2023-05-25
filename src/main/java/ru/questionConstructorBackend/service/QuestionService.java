@@ -101,11 +101,5 @@ public class QuestionService {
                 .toList();
     }
 
-    public Boolean checkQuestion(CheckQuestionDto checkQuestionDto)
-    {
-        if(checkQuestionDto.getTrueAnswers().equals(checkQuestionDto.getSelectedAnswers()))
-            return true;
-        else return  false;
-    }
 
 }

@@ -6,6 +6,7 @@ import ru.questionConstructorBackend.dto.AnswerVersionDto;
 import ru.questionConstructorBackend.dto.CheckQuestionDto;
 import ru.questionConstructorBackend.dto.QuestionDto;
 import ru.questionConstructorBackend.dto.QuestionTypeDto;
+import ru.questionConstructorBackend.entity.AnswerVersion;
 import ru.questionConstructorBackend.entity.QuestionType;
 import ru.questionConstructorBackend.service.QuestionService;
 
@@ -63,10 +64,10 @@ public class QuestionController {
         return questionService.findQuestionsBySearchString(searchString);
     }
 
-    @GetMapping("/compare")
-    public Boolean checkQuestion(@RequestBody CheckQuestionDto checkQuestionDto)
+    @PostMapping("/checkType1")
+    public Boolean checkQuestionType1(@RequestParam long id)
     {
-        return questionService.checkQuestion(checkQuestionDto);
+        return questionService.checkQuestionType1(id);
     }
 
 }

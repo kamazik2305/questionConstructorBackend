@@ -1,6 +1,8 @@
 package ru.questionConstructorBackend.mapper;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.questionConstructorBackend.dto.AnswerVersionDto;
 import ru.questionConstructorBackend.dto.QuestionDto;
@@ -13,11 +15,15 @@ import ru.questionConstructorBackend.repository.QuestionTypeRepository;
 @RequiredArgsConstructor
 public class QuestionMapper {
 
+
     private final QuestionTypeRepository questionTypeRepository;
 
     private final AnswerVersionRepository answerVersionRepository;
 
     private final QuestionRepository questionRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Question toEntity(QuestionDto questionDto)
     {
