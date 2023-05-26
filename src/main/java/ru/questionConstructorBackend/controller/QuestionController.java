@@ -64,10 +64,6 @@ public class QuestionController {
         return questionService.findQuestionsBySearchString(searchString);
     }
 
-    @PostMapping("/checkType1")
-    public Boolean checkQuestionType1(@RequestParam long id)
-    {
-        return questionService.checkQuestionType1(id);
-    }
+
 
 }
