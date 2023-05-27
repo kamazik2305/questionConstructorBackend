@@ -1,6 +1,9 @@
 package ru.questionConstructorBackend.mapper;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.questionConstructorBackend.dto.AnswerVersionDto;
 import ru.questionConstructorBackend.dto.QuestionDto;
@@ -19,6 +22,9 @@ public class QuestionMapper {
     private final AnswerVersionRepository answerVersionRepository;
 
     private final QuestionRepository questionRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public Question toEntity(QuestionDto questionDto)
     {
@@ -40,7 +46,7 @@ public class QuestionMapper {
                         .stream()
                         .map(answerVersion -> AnswerVersionDto.builder()
                                 .answerText(answerVersion.getAnswerText())
-                                .verity(answerVersion.getVerity())
+                                .verity(passwordEncoder.encode(answerVersion.getVerity().toString()))
                                 .build())
                         .toList())
                 .build();

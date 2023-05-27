@@ -22,7 +22,7 @@ public class CheckQuestionDto {
     @NotNull
     private long idQuestionType;
     @NotNull
-    private List<AnswerVersionDto> trueAnswers;
+    private List<AnswerVersionDto> answers;
     @NotNull
     private List<AnswerVersionDto> selectedAnswers;
 }

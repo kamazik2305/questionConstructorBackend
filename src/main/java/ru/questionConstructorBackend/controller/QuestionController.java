@@ -64,6 +64,16 @@ public class QuestionController {
         return questionService.findQuestionsBySearchString(searchString);
     }
 
+    @GetMapping("/checkType1")
+    public Boolean checkQuestionType1(@RequestBody AnswerVersionDto answerVersionDto)
+    {
+        return questionService.checkQuestionType1(answerVersionDto);
+    }
 
+    @GetMapping("checkType3")
+    public Boolean checkQuestionType3(@RequestBody CheckQuestionDto checkQuestionDto)
+    {
+        return questionService.checkQuestionType3(checkQuestionDto);
+    }
 
 }
