@@ -1,9 +1,10 @@
-package ru.questionConstructorBackend.dto;
+package ru.questionConstructorBackend.dto.checkQuestionDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.questionConstructorBackend.dto.AnswerVersionDto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -13,14 +14,10 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckQuestionDto {
+public class CheckQuestionType3Dto {
 
-    @NotNull
-    private long id;
     @NotEmpty
     private String questionText;
-    @NotNull
-    private long idQuestionType;
     @NotNull
     private List<AnswerVersionDto> answers;
     @NotNull

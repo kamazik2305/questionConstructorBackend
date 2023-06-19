@@ -2,12 +2,9 @@ package ru.questionConstructorBackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.questionConstructorBackend.dto.AnswerVersionDto;
-import ru.questionConstructorBackend.dto.CheckQuestionDto;
-import ru.questionConstructorBackend.dto.QuestionDto;
-import ru.questionConstructorBackend.dto.QuestionTypeDto;
-import ru.questionConstructorBackend.entity.AnswerVersion;
-import ru.questionConstructorBackend.entity.QuestionType;
+import ru.questionConstructorBackend.dto.*;
+import ru.questionConstructorBackend.dto.AnsweredQuestionDto.AnsweredQuestionType3Dto;
+import ru.questionConstructorBackend.dto.checkQuestionDto.CheckQuestionType3Dto;
 import ru.questionConstructorBackend.service.QuestionService;
 
 import java.util.List;
@@ -41,7 +38,7 @@ public class QuestionController {
     @GetMapping("/questions/{id_question}")
     public QuestionDto getQuestionById(@PathVariable(value = "id_question") long id)
     {
-        return questionService.findQuestionById(id);
+        return  questionService.findQuestionById(id);
     }
 
     @PutMapping("/questions/{id_question}")
@@ -64,16 +61,15 @@ public class QuestionController {
         return questionService.findQuestionsBySearchString(searchString);
     }
 
-    @GetMapping("/checkType1")
+    @PostMapping("/checkType1")
     public Boolean checkQuestionType1(@RequestBody AnswerVersionDto answerVersionDto)
     {
         return questionService.checkQuestionType1(answerVersionDto);
     }
 
-    @GetMapping("checkType3")
-    public Boolean checkQuestionType3(@RequestBody CheckQuestionDto checkQuestionDto)
+    @PostMapping("/checkType13")
+    public AnsweredQuestionType3Dto checkQuestionType12(@RequestBody CheckQuestionType3Dto checkQuestionType3Dto)
     {
-        return questionService.checkQuestionType3(checkQuestionDto);
+        return questionService.checkQuestionType13(checkQuestionType3Dto);
     }
-
 }

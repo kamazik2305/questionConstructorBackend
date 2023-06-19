@@ -1,14 +1,13 @@
 package ru.questionConstructorBackend.service;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.questionConstructorBackend.dto.AnswerVersionDto;
-import ru.questionConstructorBackend.dto.CheckQuestionDto;
-import ru.questionConstructorBackend.dto.QuestionDto;
-import ru.questionConstructorBackend.dto.QuestionTypeDto;
+import ru.questionConstructorBackend.dto.*;
+import ru.questionConstructorBackend.dto.AnsweredQuestionDto.AnsweredQuestionType2Dto;
+import ru.questionConstructorBackend.dto.AnsweredQuestionDto.AnsweredQuestionType3Dto;
+import ru.questionConstructorBackend.dto.checkQuestionDto.CheckQuestionType2Dto;
+import ru.questionConstructorBackend.dto.checkQuestionDto.CheckQuestionType3Dto;
 import ru.questionConstructorBackend.entity.AnswerVersion;
 import ru.questionConstructorBackend.entity.Question;
 import ru.questionConstructorBackend.mapper.QuestionMapper;
@@ -17,10 +16,7 @@ import ru.questionConstructorBackend.repository.AnswerVersionRepository;
 import ru.questionConstructorBackend.repository.QuestionRepository;
 import ru.questionConstructorBackend.repository.QuestionTypeRepository;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,7 +87,7 @@ public class QuestionService {
         for (AnswerVersionDto answerVersionDto : questionDto.getAnswerVersions()) {
             AnswerVersion answerVersion = new AnswerVersion();
             answerVersion.setAnswerText(answerVersionDto.getAnswerText());
-            if(Objects.equals(answerVersionDto.getVerity(), "true"))
+            if (Objects.equals(answerVersionDto.getVerity(), "true"))
                 answerVersion.setVerity(true);
             else answerVersion.setVerity(false);
             answerVersion.setQuestion(question);
@@ -111,24 +107,20 @@ public class QuestionService {
     }
 
 
-    public Boolean checkQuestionType1(AnswerVersionDto answerVersionDto)
-    {
+    public Boolean checkQuestionType1(AnswerVersionDto answerVersionDto) {
         return passwordEncoder.matches("true", answerVersionDto.getVerity());
     }
 
-    public Boolean checkQuestionType3(CheckQuestionDto checkQuestionDto)
-    {
+    public AnsweredQuestionType3Dto checkQuestionType13(CheckQuestionType3Dto checkQuestion) {
+        AnsweredQuestionType3Dto answeredQuestion = new AnsweredQuestionType3Dto();
         List<AnswerVersionDto> trueAnswers = new ArrayList<>();
-        for(AnswerVersionDto answer : checkQuestionDto.getAnswers())
-        {
-            if(passwordEncoder.matches("true", answer.getVerity()))
+        for (AnswerVersionDto answer : checkQuestion.getAnswers()) {
+            if (passwordEncoder.matches("true", answer.getVerity()))
                 trueAnswers.add(answer);
         }
-        trueAnswers.sort(Comparator.comparing(AnswerVersionDto::getVerity));
-        checkQuestionDto.getSelectedAnswers().sort(Comparator.comparing(AnswerVersionDto::getVerity));
-        return trueAnswers.equals(checkQuestionDto.getSelectedAnswers());
-
+        answeredQuestion.setQuestionText(checkQuestion.getQuestionText());
+        answeredQuestion.setSelectedAnswers(checkQuestion.getSelectedAnswers());
+        answeredQuestion.setTrueAnswers(trueAnswers);
+        return answeredQuestion;
     }
-
-
 }

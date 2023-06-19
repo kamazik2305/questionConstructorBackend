@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <changeSet id="description-create" author="kamaz" runOnChange="true">
+        <preConditions>
+            <and>
+                <not>
+                    <tableExists tableName="description"/>
+                </not>
+            </and>
+        </preConditions>
+
+        <createTable tableName="description">
+            <column name="id_description" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="id_question" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description_text" type="nvarchar2(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="description"
+                                 baseColumnNames="id_question"
+                                 constraintName="fk_store_id_question_description"
+                                 referencedTableName="question"
+                                 referencedColumnNames="id_question"/>
+    </changeSet>
+
+    <changeSet id="description-rollback" author="">
+        <rollback>
+            <dropTable tableName="description"/>
+            <dropForeignKeyConstraint baseTableName="description" constraintName="fk_store_id_question_description"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

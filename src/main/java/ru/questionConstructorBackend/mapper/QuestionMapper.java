@@ -2,7 +2,6 @@ package ru.questionConstructorBackend.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.questionConstructorBackend.dto.AnswerVersionDto;
@@ -37,19 +36,36 @@ public class QuestionMapper {
 
     public QuestionDto toDto(Question question)
     {
-        return QuestionDto
-                .builder()
-                .id(question.getId())
-                .idQuestionType(question.getQuestionType().getId())
-                .questionText(question.getQuestionText())
-                .answerVersions(question.getAnswerVersions()
-                        .stream()
-                        .map(answerVersion -> AnswerVersionDto.builder()
-                                .answerText(answerVersion.getAnswerText())
-                                .verity(passwordEncoder.encode(answerVersion.getVerity().toString()))
-                                .build())
-                        .toList())
-                .build();
+        switch ((int) question.getQuestionType().getId())
+        {
+            case 1,3: return QuestionDto
+                    .builder()
+                    .id(question.getId())
+                    .idQuestionType(question.getQuestionType().getId())
+                    .questionText(question.getQuestionText())
+                    .answerVersions(question.getAnswerVersions()
+                            .stream()
+                            .map(answerVersion -> AnswerVersionDto.builder()
+                                    .answerText(answerVersion.getAnswerText())
+                                    .verity(passwordEncoder.encode(answerVersion.getVerity().toString()))
+                                    .build())
+                            .toList())
+                    .build();
+            default: return QuestionDto
+                    .builder()
+                    .id(question.getId())
+                    .idQuestionType(question.getQuestionType().getId())
+                    .questionText(question.getQuestionText())
+                    .answerVersions(question.getAnswerVersions()
+                            .stream()
+                            .map(answerVersion -> AnswerVersionDto.builder()
+                                    .answerText(passwordEncoder.encode(answerVersion.getAnswerText()))
+                                    .verity(passwordEncoder.encode(answerVersion.getVerity().toString()))
+                                    .build())
+                            .toList())
+                    .build();
+        }
+
     }
 
 
