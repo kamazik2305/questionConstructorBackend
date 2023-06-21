@@ -32,6 +32,14 @@ public class Question {
     @OneToOne(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Description description;
 
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SelectedAnswer> selectedAnswers;
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_test")
+    private Test test;
+
     public Question(String questionText, QuestionType questionType, List<AnswerVersion> answerVersions) {
         this.questionText = questionText;
         this.questionType = questionType;

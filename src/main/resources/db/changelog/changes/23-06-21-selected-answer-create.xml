@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <changeSet id="selected-answer-create" author="kamaz" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <not>
+                    <tableExists tableName="selected_answer"/>
+                </not>
+            </and>
+        </preConditions>
+
+        <createTable tableName="selected_answer">
+            <column name="id_selected_answer" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="answer_text" type="nvarchar2(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_question" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_test_result" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="selected_answer"
+                                 baseColumnNames="id_question"
+                                 constraintName="fk_store_selected_answer_question"
+                                 referencedTableName="question"
+                                 referencedColumnNames="id_question"/>
+
+        <addForeignKeyConstraint baseTableName="selected_answer"
+                                 baseColumnNames="id_test_result"
+                                 constraintName="fk_store_selected_answer_test_result"
+                                 referencedTableName="test_result"
+                                 referencedColumnNames="id_test_result"/>
+
+    </changeSet>
+
+    <changeSet id="selected_answer-rollback" author="kamaz">
+        <rollback>
+            <dropTable tableName="selected_answer"/>
+            <dropForeignKeyConstraint baseTableName="question" constraintName="fk_store_selected_answer_question"/>
+            <dropForeignKeyConstraint baseTableName="test_result" constraintName="fk_store_selected_answer_test_result"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

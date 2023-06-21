@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <changeSet id="test-test_result-create" author="kamaz" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <not>
+                    <tableExists tableName="test"/>
+                </not>
+            </and>
+            <and>
+                <not>
+                    <tableExists tableName="test_result"/>
+                </not>
+            </and>
+        </preConditions>
+
+        <createTable tableName="test">
+            <column name="id_test" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="test_name" type="nvarchar2(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="test_result">
+            <column name="id_test_result" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="id_test" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addColumn tableName="question">
+            <column name="id_test" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="question"
+                                 baseColumnNames="id_test"
+                                 constraintName="fk_store_test_question"
+                                 referencedTableName="test"
+                                 referencedColumnNames="id_test"/>
+
+        <addForeignKeyConstraint baseTableName="test_result"
+                                 baseColumnNames="id_test"
+                                 constraintName="fk_store_test_test_result"
+                                 referencedTableName="test"
+                                 referencedColumnNames="id_test"/>
+
+    </changeSet>
+
+    <changeSet id="test-test_result-rollback" author="kamaz">
+        <rollback>
+            <dropTable tableName="test"/>
+            <dropTable tableName="test_result"/>
+            <dropForeignKeyConstraint baseTableName="question" constraintName="fk_store_test_question"/>
+            <dropForeignKeyConstraint baseTableName="test_result" constraintName="fk_store_test_test_result"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
