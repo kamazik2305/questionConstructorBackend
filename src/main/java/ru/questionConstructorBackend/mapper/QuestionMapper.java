@@ -10,6 +10,7 @@ import ru.questionConstructorBackend.entity.Question;
 import ru.questionConstructorBackend.repository.AnswerVersionRepository;
 import ru.questionConstructorBackend.repository.QuestionRepository;
 import ru.questionConstructorBackend.repository.QuestionTypeRepository;
+import ru.questionConstructorBackend.repository.TestRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +23,8 @@ public class QuestionMapper {
 
     private final QuestionRepository questionRepository;
 
+    private final TestRepository testRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -30,6 +33,7 @@ public class QuestionMapper {
         Question question = new Question();
         question.setQuestionText(questionDto.getQuestionText());
         question.setQuestionType(questionTypeRepository.findById(questionDto.getIdQuestionType()).get());
+        question.setTest(testRepository.findById(questionDto.getIdTest()).get());
         return question;
 
     }
@@ -42,6 +46,7 @@ public class QuestionMapper {
                     .builder()
                     .id(question.getId())
                     .idQuestionType(question.getQuestionType().getId())
+                    .idTest(question.getTest().getId())
                     .questionText(question.getQuestionText())
                     .answerVersions(question.getAnswerVersions()
                             .stream()
@@ -55,6 +60,7 @@ public class QuestionMapper {
                     .builder()
                     .id(question.getId())
                     .idQuestionType(question.getQuestionType().getId())
+                    .idTest(question.getTest().getId())
                     .questionText(question.getQuestionText())
                     .answerVersions(question.getAnswerVersions()
                             .stream()

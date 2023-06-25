@@ -14,6 +14,8 @@ public class QuestionDto {
 
     @NotNull
     private long id;
+    @NotNull
+    private long idTest;
     @NotEmpty
     private String questionText;
     @NotNull

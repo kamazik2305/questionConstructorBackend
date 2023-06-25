@@ -15,6 +15,7 @@ import ru.questionConstructorBackend.mapper.QuestionTypeMapper;
 import ru.questionConstructorBackend.repository.AnswerVersionRepository;
 import ru.questionConstructorBackend.repository.QuestionRepository;
 import ru.questionConstructorBackend.repository.QuestionTypeRepository;
+import ru.questionConstructorBackend.repository.TestRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,6 +35,8 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private TestRepository testRepository;
 
 
     public ArrayList<QuestionTypeDto> findAllQuestionTypes() {
@@ -62,6 +65,15 @@ public class QuestionService {
                 .toList();
     }
 
+    public List<QuestionDto> findAllQuestionsByTest(long idTest)
+    {
+        return questionRepository
+                .findAllByTest(testRepository.findById(idTest).get())
+                .stream()
+                .map(question -> questionMapper.toDto(question))
+                .toList();
+    }
+
     public QuestionDto findQuestionById(long id) {
         return questionMapper.toDto(questionRepository.findById(id).orElseThrow());
     }
@@ -79,10 +91,15 @@ public class QuestionService {
     }
 
 
-    public QuestionDto addQuestion(QuestionDto questionDto) {
-        Question question = questionMapper.toEntity(questionDto);
-        questionRepository.save(question);
+    public QuestionDto addQuestion(QuestionDto questionDto, long idTest) {
 
+        Question question = new Question();
+        question.setQuestionType(questionTypeRepository.findById(questionDto.getIdQuestionType()).get());
+        question.setTest(testRepository.findById(idTest).get());
+        question.setQuestionText(questionDto.getQuestionText());
+//        Question question = questionMapper.toEntity(questionDto);
+//        questionRepository.save(question);
+        questionRepository.save(question);
         List<AnswerVersion> answerVersions = new ArrayList<>();
         for (AnswerVersionDto answerVersionDto : questionDto.getAnswerVersions()) {
             AnswerVersion answerVersion = new AnswerVersion();

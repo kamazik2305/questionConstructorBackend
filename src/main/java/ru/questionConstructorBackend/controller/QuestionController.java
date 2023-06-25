@@ -29,10 +29,17 @@ public class QuestionController {
         return questionService.findAllQuestions();
     }
 
-    @PostMapping("/questions/add")
-    public QuestionDto addQuestion(@RequestBody QuestionDto questionDto)
+    @GetMapping("/tests/{id_test}/questions")
+    public List<QuestionDto> getAllQuestionsByTest(@PathVariable(value = "id_test") long idTest){
+        return questionService.findAllQuestionsByTest(idTest);
+    }
+
+
+    @PostMapping("/questions/{id_test}/add")
+    public QuestionDto addQuestion(@PathVariable(value = "id_test") long idTest,
+                                   @RequestBody QuestionDto questionDto)
     {
-        return questionService.addQuestion(questionDto);
+        return questionService.addQuestion(questionDto, idTest);
     }
 
     @GetMapping("/questions/{id_question}")
